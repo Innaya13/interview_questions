@@ -862,6 +862,7 @@ Spring не позволяет внедрять бины в статически
 Стоит отметить, что если присутствуют ОБЕ аннотации @Qualifier и @Primary, то аннотация @Qualifier будет иметь приоритет.  
 
 /////////////////////////////////////////////////////////////
+
 When Spring starts, it will find there are two beans("bean1" and "bean2") both can be autowired to BeanService since they implement the same interface BeanInterface. It reports an error in my Idea.
 
 Could not autowire. There is more than one bean of 'BeanInterface' type.
