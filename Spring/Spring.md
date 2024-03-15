@@ -877,7 +877,7 @@ So in our case, when we add @Primary to Config.bean1().
 public BeanInterface bean1() {
     return new Bean1();
 }
-It tells Spring, "when you find more than one beans that both can be autowired, please use the primary one as your first choose." So, Spring will pick bean1 to autowire to BeanService.
+It tells Spring, "when you find more than one beans that both can be autowired, please use the PRIMARY ONE AS YOUR first choose." So, Spring will pick bean1 to autowire to BeanService.
 
 Here is another way to autowire bean1 to BeanService by using @Qualifier in BeanService.class.
 
@@ -888,7 +888,7 @@ public class BeanService {
     @Qualifier("bean1")
     private BeanInterface bean;
 }
-@Qualifier will tell Spring, "no matter how many beans you've found, just use the one I tell you."
+@Qualifier will tell Spring, "no matter how many beans you've found, JUST USE THE ONE I TELL YOU."
 
 So you can find both @Qualifier and @Primary are telling Spring to use the specific bean when multiple candidates are qualified to autowire. But @Qualifier is more specific and has high priority. So when both @Qualifier and @Primary are found, @Primary will be ignored. 
 
