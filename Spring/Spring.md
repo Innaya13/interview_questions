@@ -860,7 +860,40 @@ Spring не позволяет внедрять бины в статически
 Когда есть несколько бинов одного типа, подходящих для внедрения, аннотация @Qualifier позволяет указать в качестве аргумента имя конкретного бина, который следует внедрить.  
  
 Стоит отметить, что если присутствуют ОБЕ аннотации @Qualifier и @Primary, то аннотация @Qualifier будет иметь приоритет.  
- 
+
+/////////////////////////////////////////////////////////////
+When Spring starts, it will find there are two beans("bean1" and "bean2") both can be autowired to BeanService since they implement the same interface BeanInterface. It reports an error in my Idea.
+
+Could not autowire. There is more than one bean of 'BeanInterface' type.
+Beans: bean1   (Config.java) 
+bean2   (Config.java) 
+And without a hint, Spring does not know which one to use.
+
+So in our case, when we add @Primary to Config.bean1().
+
+@Bean("bean1")
+@Primary
+public BeanInterface bean1() {
+    return new Bean1();
+}
+It tells Spring, "when you find more than one beans that both can be autowired, please use the primary one as your first choose." So, Spring will pick bean1 to autowire to BeanService.
+
+Here is another way to autowire bean1 to BeanService by using @Qualifier in BeanService.class.
+
+@Service
+public class BeanService {
+
+    @Autowired
+    @Qualifier("bean1")
+    private BeanInterface bean;
+}
+@Qualifier will tell Spring, "no matter how many beans you've found, just use the one I tell you."
+
+So you can find both @Qualifier and @Primary are telling Spring to use the specific bean when multiple candidates are qualified to autowire. But @Qualifier is more specific and has high priority. So when both @Qualifier and @Primary are found, @Primary will be ignored. 
+
+//////////////////////////////////////////////////////////////
+
+
 По сути, @Primary определяет значение по умолчанию, в то время как @Qualifier более специфичен: определяет приоритет внедрения. 
 По умолчанию Spring распознает объекты для вставки по ТИПУ. Если в контейнере доступно более одного бина одного и того же типа, будет выброшено исключение.  
  
